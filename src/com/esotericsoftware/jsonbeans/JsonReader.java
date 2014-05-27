@@ -476,17 +476,17 @@ public class JsonReader {
 			int lineNumber = 1;
 			for (int i = 0; i < p; i++)
 				if (data[i] == '\n') lineNumber++;
-			throw new RuntimeException("Error parsing JSON on line " + lineNumber + " near: " + new String(data, p, pe - p),
+			throw new JsonException("Error parsing JSON on line " + lineNumber + " near: " + new String(data, p, pe - p),
 				parseRuntimeEx);
 		} else if (elements.size() != 0) {
 			JsonValue element = elements.get(0);
 			elements.clear();
 			if (element != null && element.isObject())
-				throw new RuntimeException("Error parsing JSON, unmatched brace.");
+				throw new JsonException("Error parsing JSON, unmatched brace.");
 			else
-				throw new RuntimeException("Error parsing JSON, unmatched bracket.");
+				throw new JsonException("Error parsing JSON, unmatched bracket.");
 		} else if (parseRuntimeEx != null) {
-			throw new RuntimeException("Error parsing JSON: " + new String(data), parseRuntimeEx);
+			throw new JsonException("Error parsing JSON: " + new String(data), parseRuntimeEx);
 		}
 		return root;
 	}
@@ -684,7 +684,7 @@ public class JsonReader {
 				c = '\t';
 				break;
 			default:
-				throw new RuntimeException("Illegal escaped character: \\" + c);
+				throw new JsonException("Illegal escaped character: \\" + c);
 			}
 			buffer.append(c);
 		}
